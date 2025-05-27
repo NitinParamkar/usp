@@ -1,19 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[]) {
+int main()
+{
+    int fd1 = 0, fd2 = 0;
+    char buf[50];
 
-    const char *filename = argv[1];
-    umask(022);
+    fd1 = open("test.txt", O_RDWR, 0);
+    fd2 = dup(fd1);
+    printf("%d %d \n", fd1, fd2);
 
-    open(filename, O_CREAT | O_WRONLY, 0777);
-    printf("File created.");
-    
-    chmod(filename, 0640);
-    printf("Permissions changed to 0640 ");
+    read(fd1, buf, 10);
+    lseek(fd2, 0L, SEEK_END);
+    write(fd2, buf, 10);
 
+    printf("%s\n", buf);
     return 0;
 }
