@@ -1,18 +1,16 @@
+#include <unistd.h>
 #include <stdio.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <time.h>
 
-int main(int argc, char *argv[]) {
-    struct stat fileStat;
+int main() {
+    struct stat fs;
+    lstat("sample.txt", &fs);
 
-    printf("File Name       : %s\n", argv[1]);
-    
-    printf("Hard Links      : %ld\n", fileStat.st_nlink);
-    printf("Last Access Time: %s", ctime(&fileStat.st_atime));
-    printf("Inode Number    : %ld\n", fileStat.st_ino);
-    printf("User ID (UID)   : %d\n", fileStat.st_uid);
-    printf("Group ID (GID)  : %d\n", fileStat.st_gid);
+    printf("Mode: \t\t\t%o\n", fs.st_mode & 07777);
+    printf("Size: \t\t\t%lu bytes\n", fs.st_size);
+    printf("Number of Links: \t%lu\n", fs.st_nlink);
+    printf("Inode: \t\t\t%lu\n", fs.st_ino); 
+    printf("Block Size: \t\t%lu\n", fs.st_blksize);
 
     return 0;
 }
