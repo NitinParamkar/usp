@@ -1,19 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[]) {
-
-    const char *filename = argv[1];
-    umask(022);
-
-    open(filename, O_CREAT | O_WRONLY, 0777);
-    printf("File created.");
-    
-    chmod(filename, 0640);
-    printf("Permissions changed to 0640 ");
-
+int main() {
+    umask(077); 
+    open("file1.txt", O_CREAT | O_WRONLY, 0666); 
+    chmod("file1.txt", 0644); 
     return 0;
 }
